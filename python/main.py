@@ -8,8 +8,8 @@ app = Flask(__name__,
 
 socketio = SocketIO(app)
 
-@app.route("/")
-def index():
+@app.errorhandler(404)
+def not_found_error(error):
     return render_template("index.html")
 
 @socketio.event
