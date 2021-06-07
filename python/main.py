@@ -2,7 +2,7 @@ import filesystem
 import logging
 import os
 
-from flask import Flask, render_template
+from flask import Flask, Response, render_template, request
 from flask_socketio import SocketIO, emit
 
 logging.basicConfig(level=logging.DEBUG)
@@ -19,6 +19,16 @@ socketio = SocketIO(app)
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template("index.html")
+
+@app.route("/radarr", methods=["POST"])
+def radarr():
+    app.logger.info(request.json)
+    return Response(status=200)
+
+@app.route("/sonarr", methods=["POST"])
+def sonarr():
+    app.logger.info(request.json)
+    return Response(status=200)
 
 @socketio.event
 def my_event(message):
