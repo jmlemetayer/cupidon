@@ -18,6 +18,14 @@ FROM	python:3
 
 COPY	--from=builder /www /www
 
+RUN	set -x \
+	# Install the needed packages:
+	&& DEBIAN_FRONTEND=noninteractive \
+	&& apt update \
+	&& apt install --no-install-recommends --assume-yes \
+		libmediainfo0v5 \
+	&& rm -rf /var/lib/apt/lists/*
+
 WORKDIR	/app
 
 COPY	python/requirements.txt .
