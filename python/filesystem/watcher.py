@@ -8,7 +8,7 @@ from inotify_simple import INotify, flags
 
 logger = logging.getLogger("filesystem.watcher")
 
-def file_watcher(root_path,
+def file_watcher(root_paths,
                  dir_gone=None,
                  dir_moved=None,
                  file_created=None,
@@ -87,8 +87,9 @@ def file_watcher(root_path,
 
         thread.start()
 
-    def watching_thread(root_path):
-        watch_directory(root_path)
+    def watching_thread(root_paths):
+        for root_path in root_paths:
+            watch_directory(root_path)
 
         while True:
             try:
@@ -179,7 +180,7 @@ def file_watcher(root_path,
     threads = list()
 
     threads.append(threading.Thread(target=watching_thread, daemon=True, kwargs={
-        "root_path": root_path,
+        "root_paths": root_paths,
     }))
 
     threads.append(threading.Thread(target=processing_thread, daemon=True, kwargs={

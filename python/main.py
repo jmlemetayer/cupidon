@@ -35,11 +35,15 @@ def my_event(message):
     emit("my response", {"data": "got it!"})
 
 if __name__ == "__main__":
-    downloads_dir = os.environ.get("DOWNLOADS_DIR", "/downloads")
     config_dir = os.environ.get("CONFIG_DIR", "/config")
+    downloaded_dir = os.environ.get("DOWNLOADED_DIR", "/downloads/Downloaded")
+    movies_dir = os.environ.get("MOVIES_DIR", "/downloads/Movies")
+    tv_shows_dir = os.environ.get("TV_SHOWS_DIR", "/downloads/TV Shows")
 
-    logger.info(f"downloads_dir = {downloads_dir}")
     logger.info(f"config_dir = {config_dir}")
+    logger.info(f"downloaded_dir = {downloaded_dir}")
+    logger.info(f"movies_dir = {movies_dir}")
+    logger.info(f"tv_shows_dir = {tv_shows_dir}")
 
     def dir_moved(dir_path, old_path):
         logger.info(f"directory moved from {old_path} to {dir_path}")
@@ -65,7 +69,7 @@ if __name__ == "__main__":
     def file_moved(file_path, old_path):
         logger.info(f"file moved from {old_path} to {file_path}")
 
-    filesystem.file_watcher(downloads_dir,
+    filesystem.file_watcher([downloaded_dir, movies_dir, tv_shows_dir],
                             dir_moved=dir_moved,
                             dir_gone=dir_gone,
                             file_created=file_created,
