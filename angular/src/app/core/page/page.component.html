@@ -1,0 +1,11 @@
+<div fxLayout="column" fxFlexFill class="core-page">
+  <div class="core-page-header">
+    <ng-content select="[core-page-header]"></ng-content>
+  </div>
+  <div class="core-page-content" fxFlex="grow">
+    <ng-content></ng-content>
+  </div>
+  <div class="core-page-footer">
+    <ng-content select="[core-page-footer]"></ng-content>
+  </div>
+</div>
