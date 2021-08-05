@@ -1,1 +1,11 @@
-<p>settings works!</p>
+<form [formGroup]="settingsForm" novalidate (ngSubmit)="onSubmit()">
+  <h1>Radaar Settings</h1>
+  <mat-form-field>
+    <input matInput placeholder="Radaar API key" formControlName="radaarApiKey">
+  </mat-form-field>
+  <h1>Sonaar Settings</h1>
+  <mat-form-field>
+    <input matInput placeholder="Sonaar API key" formControlName="sonaarApiKey">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>
