@@ -3,22 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule } from '@angular/material/button';
+import { FlexLayoutModule }   from '@angular/flex-layout';
+import { MatButtonModule }    from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule }      from '@angular/material/icon';
+import { MatInputModule }     from '@angular/material/input';
+import { MatListModule }      from '@angular/material/list';
+import { MatSidenavModule }   from '@angular/material/sidenav';
+import { MatToolbarModule }   from '@angular/material/toolbar';
 
-import { AppRoutingModule } from './app-routing.module';
-import { RootComponent } from './root/root.component';
-import { PageComponent } from './core/page/page.component';
-import { MoviesComponent } from './movies/movies.component';
-import { TvShowsComponent } from './tv-shows/tv-shows.component';
-import { FilesComponent } from './files/files.component';
-import { SettingsComponent } from './settings/settings.component';
+import { AppRoutingModule }  from './app-routing.module';
+import { RootComponent }     from './components/root/root.component';
+import { PageComponent }     from './components/core/page/page.component';
+import { MoviesComponent }   from './components/pages/movies/movies.component';
+import { TvShowsComponent }  from './components/pages/tv-shows/tv-shows.component';
+import { FilesComponent }    from './components/pages/files/files.component';
+import { SettingsComponent } from './components/pages/settings/settings.component';
 
 @NgModule({
   declarations: [

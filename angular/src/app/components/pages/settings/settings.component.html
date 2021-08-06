@@ -1,6 +1,6 @@
-<form [formGroup]="settingsForm" novalidate (ngSubmit)="onSubmit()">
-  <core-page>
-    <h1 core-page-header>Settings</h1>
+<form [formGroup]="settingsForm" novalidate (ngSubmit)="onSubmit()" fxFlexFill>
+  <app-page>
+    <h1 app-page-header>Settings</h1>
 
     <h3>Radaar Settings</h3>
     <mat-form-field>
@@ -12,6 +12,6 @@
       <input matInput placeholder="Sonaar API key" formControlName="sonaarApiKey">
     </mat-form-field>
 
-    <button core-page-footer mat-raised-button color="primary" type="submit">Submit</button>
-  </core-page>
+    <button app-page-footer mat-raised-button color="primary" type="submit">Submit</button>
+  </app-page>
 </form>

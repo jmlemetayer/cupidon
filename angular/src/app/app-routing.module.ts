@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MoviesComponent } from './movies/movies.component';
-import { TvShowsComponent } from './tv-shows/tv-shows.component';
-import { FilesComponent } from './files/files.component';
-import { SettingsComponent } from './settings/settings.component';
+import { MoviesComponent }   from './components/pages/movies/movies.component';
+import { TvShowsComponent }  from './components/pages/tv-shows/tv-shows.component';
+import { FilesComponent }    from './components/pages/files/files.component';
+import { SettingsComponent } from './components/pages/settings/settings.component';
 
 const routes: Routes = [
   { path: 'movies', component: MoviesComponent },
