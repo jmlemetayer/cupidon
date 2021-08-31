@@ -2,6 +2,8 @@ import filesystem
 import logging
 import os
 
+from settings.toml import SettingsToml
+
 from flask import Flask, Response, render_template, request
 from flask_socketio import SocketIO, emit
 
@@ -13,6 +15,8 @@ config_dir = os.environ.get("CONFIG_DIR", "/config")
 downloaded_dir = os.environ.get("DOWNLOADED_DIR", "/downloads/Downloaded")
 movies_dir = os.environ.get("MOVIES_DIR", "/downloads/Movies")
 tv_shows_dir = os.environ.get("TV_SHOWS_DIR", "/downloads/TV Shows")
+
+settings = SettingsToml(os.path.join(config_dir, "cupidon.conf"))
 
 app = Flask(__name__,
             static_url_path="",
