@@ -9,6 +9,11 @@ logging.basicConfig(level=logging.DEBUG)
 
 logger = logging.getLogger("cupidon")
 
+config_dir = os.environ.get("CONFIG_DIR", "/config")
+downloaded_dir = os.environ.get("DOWNLOADED_DIR", "/downloads/Downloaded")
+movies_dir = os.environ.get("MOVIES_DIR", "/downloads/Movies")
+tv_shows_dir = os.environ.get("TV_SHOWS_DIR", "/downloads/TV Shows")
+
 app = Flask(__name__,
             static_url_path="",
             static_folder="/www",
@@ -34,40 +39,35 @@ def sonarr():
 def my_event(message):
     emit("my response", {"data": "got it!"})
 
-if __name__ == "__main__":
-    config_dir = os.environ.get("CONFIG_DIR", "/config")
-    downloaded_dir = os.environ.get("DOWNLOADED_DIR", "/downloads/Downloaded")
-    movies_dir = os.environ.get("MOVIES_DIR", "/downloads/Movies")
-    tv_shows_dir = os.environ.get("TV_SHOWS_DIR", "/downloads/TV Shows")
+def dir_moved(dir_path, old_path):
+    logger.info(f"directory moved from {old_path} to {dir_path}")
 
+def dir_gone(dir_path):
+    logger.info(f"directory gone {dir_path}")
+
+def file_created(file_path):
+    media_type = filesystem.get_file_media_type(file_path)
+    file_inode = filesystem.get_file_inode(file_path)
+    file_size = filesystem.get_file_size(file_path)
+    logger.info(f"file created {file_path} {media_type} {file_inode} {file_size}")
+
+def file_deleted(file_path):
+    logger.info(f"file deleted {file_path}")
+
+def file_gone(file_path):
+    logger.info(f"file gone {file_path}")
+
+def file_modified(file_path):
+    logger.info(f"file modified {file_path}")
+
+def file_moved(file_path, old_path):
+    logger.info(f"file moved from {old_path} to {file_path}")
+
+if __name__ == "__main__":
     logger.info(f"config_dir = {config_dir}")
     logger.info(f"downloaded_dir = {downloaded_dir}")
     logger.info(f"movies_dir = {movies_dir}")
     logger.info(f"tv_shows_dir = {tv_shows_dir}")
-
-    def dir_moved(dir_path, old_path):
-        logger.info(f"directory moved from {old_path} to {dir_path}")
-
-    def dir_gone(dir_path):
-        logger.info(f"directory gone {dir_path}")
-
-    def file_created(file_path):
-        media_type = filesystem.get_file_media_type(file_path)
-        file_inode = filesystem.get_file_inode(file_path)
-        file_size = filesystem.get_file_size(file_path)
-        logger.info(f"file created {file_path} {media_type} {file_inode} {file_size}")
-
-    def file_deleted(file_path):
-        logger.info(f"file deleted {file_path}")
-
-    def file_gone(file_path):
-        logger.info(f"file gone {file_path}")
-
-    def file_modified(file_path):
-        logger.info(f"file modified {file_path}")
-
-    def file_moved(file_path, old_path):
-        logger.info(f"file moved from {old_path} to {file_path}")
 
     filesystem.file_watcher([downloaded_dir, movies_dir, tv_shows_dir],
                             dir_moved=dir_moved,
