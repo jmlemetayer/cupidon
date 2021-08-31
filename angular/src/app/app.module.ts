@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { FlexLayoutModule }   from '@angular/flex-layout';
 import { MatButtonModule }    from '@angular/material/button';
@@ -20,6 +21,8 @@ import { TvShowsComponent }  from './components/pages/tv-shows/tv-shows.componen
 import { FilesComponent }    from './components/pages/files/files.component';
 import { SettingsComponent } from './components/pages/settings/settings.component';
 
+const socketIoConfig: SocketIoConfig = {url: window.location.origin, options: {}};
+
 @NgModule({
   declarations: [
     RootComponent,
@@ -33,6 +36,7 @@ import { SettingsComponent } from './components/pages/settings/settings.componen
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    SocketIoModule.forRoot(socketIoConfig),
     FlexLayoutModule,
     MatButtonModule,
     MatFormFieldModule,

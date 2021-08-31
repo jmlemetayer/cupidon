@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { SocketIoService } from '../../../services/socketio.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,17 +8,24 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  settingsForm = this.fb.group({
-    radaarApiKey: null,
-    sonaarApiKey: null,
+  settingsForm = this.formBuilder.group({
+    radaar: this.formBuilder.group({
+	    api_key: ['', Validators.required],
+    }),
+    sonaar: this.formBuilder.group({
+	    api_key: ['', Validators.required],
+    }),
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private socketIoService: SocketIoService,
+  ) {}
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    alert("Submitted");
+    this.socketIoService.updateSettings(this.settingsForm.value);
   }
 }
