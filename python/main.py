@@ -5,7 +5,7 @@ import os
 from settings.toml import SettingsToml
 
 from flask import Flask, Response, render_template, request
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -39,9 +39,15 @@ def sonarr():
     app.logger.info(request.json)
     return Response(status=200)
 
-@socketio.event
-def my_event(message):
-    emit("my response", {"data": "got it!"})
+@socketio.on("settings:read")
+def read_settings():
+    return settings.read()
+
+@socketio.on("settings:update")
+def update_settings(data):
+    settings.update(data)
+    socketio.emit("settings:updated")
+    return True
 
 def dir_moved(dir_path, old_path):
     logger.info(f"directory moved from {old_path} to {dir_path}")
