@@ -42,4 +42,7 @@ VOLUME	["/config", "/downloads"]
 
 EXPOSE	8080
 
+COPY	docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT	["docker-entrypoint.sh"]
+
 CMD	["python", "/app/main.py"]
