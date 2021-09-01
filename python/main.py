@@ -23,7 +23,10 @@ app = Flask(__name__,
             static_folder="/www",
             template_folder="/www")
 
-socketio = SocketIO(app)
+# Enable origin check only if an origin is provided
+cors_allowed_origins = os.environ.get("CUPIDON_ORIGIN", list())
+
+socketio = SocketIO(app, cors_allowed_origins=cors_allowed_origins)
 
 @app.errorhandler(404)
 def not_found_error(error):
