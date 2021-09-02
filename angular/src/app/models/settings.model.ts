@@ -1,12 +1,12 @@
-export interface RadaarSettings {
+export interface RadarrSettings {
   api_key: string;
 }
 
-export interface SonaarSettings {
+export interface SonarrSettings {
   api_key: string;
 }
 
 export interface Settings {
-  radaar: RadaarSettings;
-  sonaar: SonaarSettings;
+  radarr: RadarrSettings;
+  sonarr: SonarrSettings;
 }

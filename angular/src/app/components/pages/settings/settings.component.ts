@@ -13,10 +13,10 @@ import { Settings } from '../../../models/settings.model';
 export class SettingsComponent implements OnInit, OnDestroy {
 
   public settingsForm = this.formBuilder.group({
-    radaar: this.formBuilder.group({
+    radarr: this.formBuilder.group({
 	    api_key: ['', Validators.required],
     }),
-    sonaar: this.formBuilder.group({
+    sonarr: this.formBuilder.group({
 	    api_key: ['', Validators.required],
     }),
   });
