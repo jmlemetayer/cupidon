@@ -97,6 +97,8 @@ def file_watcher(root_paths,
                     if event.mask & flags.IGNORED:
                         continue
 
+                    logger.debug(f"{event} {' '.join([str(f) for f in flags.from_mask(event.mask)])}")
+
                     dir_path = watch_paths[event.wd]
                     name_path = os.path.join(dir_path, event.name)
 
