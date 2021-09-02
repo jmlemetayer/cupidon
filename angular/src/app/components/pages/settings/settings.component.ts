@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { SocketIoService } from '../../../services/socketio.service';
+import { Settings } from '../../../models/settings.model';
 
 @Component({
   selector: 'app-settings',
@@ -24,7 +25,11 @@ export class SettingsComponent implements OnInit {
     private socketIoService: SocketIoService,
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.socketIoService.readSettings((settings: Settings) => {
+      this.settingsForm.setValue(settings);
+    });
+  }
 
   onSubmit(): void {
     this.socketIoService.updateSettings(this.settingsForm.value);

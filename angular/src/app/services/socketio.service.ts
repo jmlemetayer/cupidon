@@ -14,4 +14,8 @@ export class SocketIoService {
     this.socket.emit('settings:update', settings);
   }
 
+  readSettings(acknowledge: (settings: Settings) => void): void {
+    this.socket.emit('settings:read', acknowledge);
+  }
+
 }
