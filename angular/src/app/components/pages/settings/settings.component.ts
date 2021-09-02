@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { SocketIoService } from '../../../services/socketio.service';
 import { Settings } from '../../../models/settings.model';
@@ -9,7 +10,7 @@ import { Settings } from '../../../models/settings.model';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
 
   public settingsForm = this.formBuilder.group({
     radaar: this.formBuilder.group({
@@ -20,6 +21,8 @@ export class SettingsComponent implements OnInit {
     }),
   });
 
+  private subscription: Subscription = new Subscription();
+
   constructor(
     private formBuilder: FormBuilder,
     private socketIoService: SocketIoService,
@@ -29,6 +32,14 @@ export class SettingsComponent implements OnInit {
     this.socketIoService.readSettings((settings: Settings) => {
       this.settingsForm.setValue(settings);
     });
+
+    this.subscription = this.socketIoService.onSettingsUpdated().subscribe((settings: Settings) => {
+      this.settingsForm.setValue(settings);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onSubmit(): void {

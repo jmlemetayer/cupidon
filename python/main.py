@@ -16,7 +16,8 @@ downloaded_dir = os.environ.get("DOWNLOADED_DIR", "/downloads/Downloaded")
 movies_dir = os.environ.get("MOVIES_DIR", "/downloads/Movies")
 tv_shows_dir = os.environ.get("TV_SHOWS_DIR", "/downloads/TV Shows")
 
-settings = SettingsToml(os.path.join(config_dir, "cupidon.conf"))
+config_file = os.path.join(config_dir, "cupidon.conf")
+settings = SettingsToml(config_file)
 
 app = Flask(__name__,
             static_url_path="",
@@ -49,8 +50,10 @@ def read_settings():
 @socketio.on("settings:update")
 def update_settings(data):
     settings.update(data)
-    socketio.emit("settings:updated")
-    return True
+
+def config_file_updated(file_path):
+    if file_path == config_file:
+        socketio.emit("settings:updated", settings.read())
 
 def dir_moved(dir_path, old_path):
     logger.info(f"directory moved from {old_path} to {dir_path}")
@@ -90,5 +93,9 @@ if __name__ == "__main__":
                             file_gone=file_gone,
                             file_modified=file_modified,
                             file_moved=file_moved)
+
+    filesystem.file_watcher([config_dir],
+                            file_created=config_file_updated,
+                            file_modified=config_file_updated)
 
     socketio.run(app, host="0.0.0.0", port=8080)
