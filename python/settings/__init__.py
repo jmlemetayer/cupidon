@@ -20,8 +20,10 @@ class SettingsAbstract(ABC):
     def format(self, data):
         settings = dict()
         settings["radarr"] = dict()
+        settings["radarr"]["url"] = data.get("radarr", dict()).get("url", "http://localhost")
         settings["radarr"]["api_key"] = data.get("radarr", dict()).get("api_key", "")
         settings["sonarr"] = dict()
+        settings["sonarr"]["url"] = data.get("sonarr", dict()).get("url", "http://localhost")
         settings["sonarr"]["api_key"] = data.get("sonarr", dict()).get("api_key", "")
         return settings
 

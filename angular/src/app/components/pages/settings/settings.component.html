@@ -2,15 +2,25 @@
   <app-page>
     <h1 app-page-header>Settings</h1>
 
-    <div formGroupName="radarr">
+    <div class="form-group" formGroupName="radarr">
       <h3>Radarr Settings</h3>
+
+      <mat-form-field>
+        <input matInput placeholder="Radarr API URL" formControlName="url">
+      </mat-form-field>
+
       <mat-form-field>
         <input matInput placeholder="Radarr API key" formControlName="api_key">
       </mat-form-field>
     </div>
 
-    <div formGroupName="sonarr">
+    <div class="form-group" formGroupName="sonarr">
       <h3>Sonarr Settings</h3>
+
+      <mat-form-field>
+        <input matInput placeholder="Sonarr API URL" formControlName="url">
+      </mat-form-field>
+
       <mat-form-field>
         <input matInput placeholder="Sonarr API key" formControlName="api_key">
       </mat-form-field>
