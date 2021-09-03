@@ -1,5 +1,6 @@
 flask-socketio
 inotify-simple
 pymediainfo
+requests
 simple-websocket
 toml

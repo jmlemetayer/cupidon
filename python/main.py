@@ -2,6 +2,7 @@ import filesystem
 import logging
 import os
 
+from radarr import Radarr
 from settings.toml import SettingsToml
 
 from flask import Flask, Response, render_template, request
@@ -18,6 +19,8 @@ tv_shows_dir = os.environ.get("TV_SHOWS_DIR", "/downloads/TV Shows")
 
 config_file = os.path.join(config_dir, "cupidon.conf")
 settings = SettingsToml(config_file)
+
+radarr = Radarr(settings)
 
 app = Flask(__name__,
             static_url_path="",
@@ -54,6 +57,10 @@ def update_settings(data):
 def config_file_updated(file_path):
     if file_path == config_file:
         socketio.emit("settings:updated", settings.read(reload=True))
+
+@socketio.on("movies:read")
+def read_movies():
+    return radarr.get_movies()
 
 def dir_moved(dir_path, old_path):
     logger.info(f"directory moved from {old_path} to {dir_path}")
