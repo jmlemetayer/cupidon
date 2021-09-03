@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 
+import { Movie } from '../models/movie.model';
 import { Settings } from '../models/settings.model';
 
 @Injectable({
@@ -21,6 +22,10 @@ export class SocketIoService {
 
   onSettingsUpdated(): Observable<Settings> {
     return this.socket.fromEvent<Settings>('settings:updated');
+  }
+
+  readMovies(acknowledge: (movies: Movie[]) => void): void {
+    this.socket.emit('movies:read', acknowledge);
   }
 
 }

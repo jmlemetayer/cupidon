@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { SocketIoService } from '../../../services/socketio.service';
+import { Movie } from '../../../models/movie.model';
+
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
@@ -7,8 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoviesComponent implements OnInit {
 
-  constructor() { }
+  public columns: string[] = ['title'];
+  public movies: Movie[] = [];
 
-  ngOnInit(): void { }
+  constructor(
+    private socketIoService: SocketIoService,
+  ) { }
+
+  ngOnInit(): void {
+    this.socketIoService.readMovies((movies: Movie[]) => {
+      this.movies = movies;
+    });
+  }
 
 }
