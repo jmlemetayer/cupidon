@@ -34,12 +34,12 @@ def not_found_error(error):
     return render_template("index.html")
 
 @app.route("/radarr", methods=["POST"])
-def radarr():
+def radarr_webhook():
     app.logger.info(request.json)
     return Response(status=200)
 
 @app.route("/sonarr", methods=["POST"])
-def sonarr():
+def sonarr_webhook():
     app.logger.info(request.json)
     return Response(status=200)
 
