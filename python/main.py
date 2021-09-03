@@ -53,7 +53,7 @@ def update_settings(data):
 
 def config_file_updated(file_path):
     if file_path == config_file:
-        socketio.emit("settings:updated", settings.read())
+        socketio.emit("settings:updated", settings.read(reload=True))
 
 def dir_moved(dir_path, old_path):
     logger.info(f"directory moved from {old_path} to {dir_path}")

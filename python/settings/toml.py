@@ -9,14 +9,22 @@ class SettingsToml(SettingsAbstract):
 
     def __init__(self, filename):
         self.filename = filename
+        self.data = None
         super().__init__()
 
-    def load(self):
+    def load(self, reload=None):
+        if reload is None and self.data is not None:
+            return self.data
+
         try:
-            return toml.load(self.filename)
+            self.data = toml.load(self.filename)
         except FileNotFoundError:
             return dict()
+
+        return self.data
 
     def dump(self, data):
         with open(self.filename, "w+") as f:
             toml.dump(data, f)
+
+        self.data = data

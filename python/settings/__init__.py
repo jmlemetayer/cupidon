@@ -27,8 +27,8 @@ class SettingsAbstract(ABC):
         settings["sonarr"]["api_key"] = data.get("sonarr", dict()).get("api_key", "")
         return settings
 
-    def read(self):
-        return self.format(self.load())
+    def read(self, **kwargs):
+        return self.format(self.load(**kwargs))
 
-    def update(self, data):
-        self.dump(self.format(data))
+    def update(self, data, **kwargs):
+        self.dump(self.format(data), **kwargs)
