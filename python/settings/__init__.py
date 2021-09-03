@@ -1,6 +1,7 @@
 import logging
 
 from abc import ABC, abstractmethod
+from functools import reduce
 
 logger = logging.getLogger("settings")
 
@@ -32,3 +33,6 @@ class SettingsAbstract(ABC):
 
     def update(self, data, **kwargs):
         self.dump(self.format(data), **kwargs)
+
+    def get(self, path, default=None):
+        return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, path.split("."), self.read())
