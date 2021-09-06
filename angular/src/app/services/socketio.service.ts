@@ -28,4 +28,8 @@ export class SocketIoService {
     this.socket.emit('movies:read', acknowledge);
   }
 
+  downloadMovie(movie: Movie): void {
+    this.socket.emit('movie:download', movie);
+  }
+
 }

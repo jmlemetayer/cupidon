@@ -10,7 +10,7 @@ import { Movie } from '../../../models/movie.model';
 })
 export class MoviesComponent implements OnInit {
 
-  public columns: string[] = ['title', 'tags'];
+  public columns: string[] = ['title', 'tags', 'actions'];
   public movies: Movie[] = [];
 
   constructor(
@@ -21,6 +21,10 @@ export class MoviesComponent implements OnInit {
     this.socketIoService.readMovies((movies: Movie[]) => {
       this.movies = movies;
     });
+  }
+
+  onDownload(movie: Movie): void {
+    this.socketIoService.downloadMovie(movie);
   }
 
 }

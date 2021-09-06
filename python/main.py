@@ -62,6 +62,10 @@ def config_file_updated(file_path):
 def read_movies():
     return radarr.get_movies()
 
+@socketio.on("movie:download")
+def download_movie(movie):
+    logger.info(f"Downloading movie: {movie}")
+
 def dir_moved(dir_path, old_path):
     logger.info(f"directory moved from {old_path} to {dir_path}")
 
