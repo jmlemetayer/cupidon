@@ -21,6 +21,21 @@ export class SettingsComponent implements OnInit, OnDestroy {
       url: ['', Validators.required],
       api_key: ['', Validators.required],
     }),
+    seedbox: this.formBuilder.group({
+      url: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    }),
+    synology: this.formBuilder.group({
+      url: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      destination: this.formBuilder.group({
+        movies: ['', Validators.required],
+        tv_shows: ['', Validators.required],
+        others: ['', Validators.required],
+      }),
+    }),
   });
 
   private subscription: Subscription = new Subscription();

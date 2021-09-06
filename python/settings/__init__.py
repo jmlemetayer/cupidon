@@ -1,4 +1,5 @@
 import logging
+import os
 
 from abc import ABC, abstractmethod
 from functools import reduce
@@ -26,6 +27,18 @@ class SettingsAbstract(ABC):
         settings["sonarr"] = dict()
         settings["sonarr"]["url"]     = self.get("sonarr.url", "http://localhost", data)
         settings["sonarr"]["api_key"] = self.get("sonarr.api_key", "", data)
+        settings["seedbox"] = dict()
+        settings["seedbox"]["url"]      = self.get("seedbox.url", os.environ.get("SEEDBOX_URL", ""), data)
+        settings["seedbox"]["username"] = self.get("seedbox.username", "", data)
+        settings["seedbox"]["password"] = self.get("seedbox.password", "", data)
+        settings["synology"] = dict()
+        settings["synology"]["url"]      = self.get("synology.url", "http://synology.url:5000", data)
+        settings["synology"]["username"] = self.get("synology.username", "", data)
+        settings["synology"]["password"] = self.get("synology.password", "", data)
+        settings["synology"]["destination"] = dict()
+        settings["synology"]["destination"]["movies"]   = self.get("synology.destination.movies", "", data)
+        settings["synology"]["destination"]["tv_shows"] = self.get("synology.destination.tv_shows", "", data)
+        settings["synology"]["destination"]["others"]   = self.get("synology.destination.others", "", data)
         return settings
 
     def read(self, **kwargs):

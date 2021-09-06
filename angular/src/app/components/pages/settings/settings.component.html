@@ -26,6 +26,52 @@
       </mat-form-field>
     </div>
 
+    <div class="form-group" formGroupName="seedbox">
+      <h3>Seedbox Settings</h3>
+
+      <mat-form-field>
+        <input matInput placeholder="Seedbox URL" formControlName="url">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Seedbox Username" formControlName="username">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Seedbox Password" formControlName="password">
+      </mat-form-field>
+    </div>
+
+    <div class="form-group" formGroupName="synology">
+      <h3>Synology Settings</h3>
+
+      <mat-form-field>
+        <input matInput placeholder="Synology URL" formControlName="url">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Synology Username" formControlName="username">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Synology Password" formControlName="password">
+      </mat-form-field>
+
+      <div formGroupName="destination">
+        <mat-form-field>
+          <input matInput placeholder="Synology Destination Movies" formControlName="movies">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Synology Destination TV Shows" formControlName="tv_shows">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Synology Destination Others" formControlName="others">
+        </mat-form-field>
+      </div>
+    </div>
+
     <button app-page-footer mat-raised-button color="primary" type="submit" [disabled]="!settingsForm.valid">Submit</button>
   </app-page>
 </form>
