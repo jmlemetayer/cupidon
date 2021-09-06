@@ -14,12 +14,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   public settingsForm = this.formBuilder.group({
     radarr: this.formBuilder.group({
-	    url: ['', Validators.required],
-	    api_key: ['', Validators.required],
+      url: ['', Validators.required],
+      api_key: ['', Validators.required],
     }),
     sonarr: this.formBuilder.group({
-	    url: ['', Validators.required],
-	    api_key: ['', Validators.required],
+      url: ['', Validators.required],
+      api_key: ['', Validators.required],
     }),
   });
 

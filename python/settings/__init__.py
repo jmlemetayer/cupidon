@@ -21,11 +21,11 @@ class SettingsAbstract(ABC):
     def format(self, data):
         settings = dict()
         settings["radarr"] = dict()
-        settings["radarr"]["url"] = data.get("radarr", dict()).get("url", "http://localhost")
-        settings["radarr"]["api_key"] = data.get("radarr", dict()).get("api_key", "")
+        settings["radarr"]["url"]     = self.get("radarr.url", "http://localhost", data)
+        settings["radarr"]["api_key"] = self.get("radarr.api_key", "", data)
         settings["sonarr"] = dict()
-        settings["sonarr"]["url"] = data.get("sonarr", dict()).get("url", "http://localhost")
-        settings["sonarr"]["api_key"] = data.get("sonarr", dict()).get("api_key", "")
+        settings["sonarr"]["url"]     = self.get("sonarr.url", "http://localhost", data)
+        settings["sonarr"]["api_key"] = self.get("sonarr.api_key", "", data)
         return settings
 
     def read(self, **kwargs):
@@ -34,5 +34,7 @@ class SettingsAbstract(ABC):
     def update(self, data, **kwargs):
         self.dump(self.format(data), **kwargs)
 
-    def get(self, path, default=None):
-        return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, path.split("."), self.read())
+    def get(self, path, default=None, data=None):
+        if data is None:
+            data = self.read()
+        return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, path.split("."), data)
