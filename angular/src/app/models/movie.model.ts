@@ -3,4 +3,5 @@ export interface Movie {
   title: string;
   path: string;
   file: string | null;
+  tags: string[];
 }

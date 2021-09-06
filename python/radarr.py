@@ -23,18 +23,33 @@ class Radarr():
         assert response.ok
         return response.json()
 
-    def format_movie(self, movie):
+    def format_movie(self, movie, queue=None):
         formatted_movie = dict()
         formatted_movie["id"] = movie["id"]
         formatted_movie["title"] = movie.get("originalTitle") or movie["title"]
         formatted_movie["path"] = movie.get("path")
         formatted_movie["file"] = movie.get("movieFile", dict()).get("path")
+        formatted_movie["tags"] = list()
+        if movie.get("hasFile", False) is False:
+            formatted_movie["tags"].append("unavailable")
+        movie_queue = self.get_movie_queue(movie["id"], queue=queue)
+        if movie_queue is not None:
+            formatted_movie["tags"].append(movie_queue["status"])
         return formatted_movie
 
     def get_movies(self):
         movies = self.request("GET", "movie")
-        formatted_movies = [self.format_movie(m) for m in movies]
+        queue = self.get_queue()
+        formatted_movies = [self.format_movie(m, queue=queue) for m in movies]
         return sorted(formatted_movies, key=lambda k: k["id"], reverse=True)
 
     def get_movie(self, id):
         return self.format_movie(self.request("GET", f"movie/{id}"))
+
+    def get_queue(self):
+        return self.request("GET", "queue")
+
+    def get_movie_queue(self, id, queue=None):
+        if queue is None:
+            queue = self.get_queue()
+        return next((x for x in queue["records"] if x["movieId"] == id), None)

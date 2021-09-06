@@ -6,6 +6,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { FlexLayoutModule }   from '@angular/flex-layout';
 import { MatButtonModule }    from '@angular/material/button';
+import { MatChipsModule }     from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule }      from '@angular/material/icon';
 import { MatInputModule }     from '@angular/material/input';
@@ -40,6 +41,7 @@ const socketIoConfig: SocketIoConfig = {url: window.location.origin, options: {}
     SocketIoModule.forRoot(socketIoConfig),
     FlexLayoutModule,
     MatButtonModule,
+    MatChipsModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,

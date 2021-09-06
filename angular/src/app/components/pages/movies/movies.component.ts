@@ -10,7 +10,7 @@ import { Movie } from '../../../models/movie.model';
 })
 export class MoviesComponent implements OnInit {
 
-  public columns: string[] = ['title'];
+  public columns: string[] = ['title', 'tags'];
   public movies: Movie[] = [];
 
   constructor(

@@ -1,3 +1,17 @@
 table {
   width: 100%;
 }
+
+.mat-column-title {
+  white-space: nowrap;
+}
+
+.mat-column-tags {
+  width: 100%;
+}
+
+mat-chip {
+  padding: 12px;
+  font-size: 12px;
+  min-height: 12px;
+}
