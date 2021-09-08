@@ -5,12 +5,12 @@ from . import SettingsAbstract
 
 logger = logging.getLogger("settings.toml")
 
-class SettingsToml(SettingsAbstract):
+class Settings(SettingsAbstract):
 
-    def __init__(self, filename):
+    def __init__(self, filename, environment):
         self.filename = filename
         self.data = None
-        super().__init__()
+        super().__init__(environment)
 
     def load(self, reload=None):
         if reload is None and self.data is not None:

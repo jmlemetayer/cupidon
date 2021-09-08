@@ -1,5 +1,4 @@
 import logging
-import os
 
 from abc import ABC, abstractmethod
 from functools import reduce
@@ -8,7 +7,8 @@ logger = logging.getLogger("settings")
 
 class SettingsAbstract(ABC):
 
-    def __init__(self):
+    def __init__(self, environment):
+        self.environment = environment
         self.load()
 
     @abstractmethod
@@ -22,17 +22,17 @@ class SettingsAbstract(ABC):
     def format(self, data):
         settings = dict()
         settings["radarr"] = dict()
-        settings["radarr"]["url"]     = self.get("radarr.url", "http://localhost", data)
+        settings["radarr"]["url"]     = self.get("radarr.url", "https://radarr.url", data)
         settings["radarr"]["api_key"] = self.get("radarr.api_key", "", data)
         settings["sonarr"] = dict()
-        settings["sonarr"]["url"]     = self.get("sonarr.url", "http://localhost", data)
+        settings["sonarr"]["url"]     = self.get("sonarr.url", "https://sonarr.url", data)
         settings["sonarr"]["api_key"] = self.get("sonarr.api_key", "", data)
         settings["seedbox"] = dict()
-        settings["seedbox"]["url"]      = self.get("seedbox.url", os.environ.get("SEEDBOX_URL", ""), data)
+        settings["seedbox"]["url"]      = self.get("seedbox.url", self.environment.seedbox_url, data)
         settings["seedbox"]["username"] = self.get("seedbox.username", "", data)
         settings["seedbox"]["password"] = self.get("seedbox.password", "", data)
         settings["synology"] = dict()
-        settings["synology"]["url"]      = self.get("synology.url", "http://synology.url:5000", data)
+        settings["synology"]["url"]      = self.get("synology.url", "https://synology.url", data)
         settings["synology"]["username"] = self.get("synology.username", "", data)
         settings["synology"]["password"] = self.get("synology.password", "", data)
         settings["synology"]["destination"] = dict()

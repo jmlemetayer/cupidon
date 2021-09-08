@@ -2,8 +2,9 @@ import filesystem
 import logging
 import os
 
+from environment import Environment
 from radarr import Radarr
-from settings.toml import SettingsToml
+from settings.toml import Settings
 
 from flask import Flask, Response, render_template, request
 from flask_socketio import SocketIO
@@ -12,13 +13,10 @@ logging.basicConfig(level=logging.DEBUG)
 
 logger = logging.getLogger("cupidon")
 
-config_dir = os.environ.get("CONFIG_DIR", "/config")
-downloaded_dir = os.environ.get("DOWNLOADED_DIR", "/downloads/Downloaded")
-movies_dir = os.environ.get("MOVIES_DIR", "/downloads/Movies")
-tv_shows_dir = os.environ.get("TV_SHOWS_DIR", "/downloads/TV Shows")
+environment = Environment()
 
-config_file = os.path.join(config_dir, "cupidon.conf")
-settings = SettingsToml(config_file)
+config_file = os.path.join(environment.config_dir, "cupidon.conf")
+settings = Settings(config_file, environment)
 
 radarr = Radarr(settings)
 
@@ -28,7 +26,7 @@ app = Flask(__name__,
             template_folder="/www")
 
 # Enable origin check only if an origin is provided
-cors_allowed_origins = os.environ.get("CUPIDON_ORIGIN", list())
+cors_allowed_origins = environment.cupidon_url or list()
 
 socketio = SocketIO(app, cors_allowed_origins=cors_allowed_origins)
 
@@ -91,12 +89,7 @@ def file_moved(file_path, old_path):
     logger.info(f"file moved from {old_path} to {file_path}")
 
 if __name__ == "__main__":
-    logger.info(f"config_dir = {config_dir}")
-    logger.info(f"downloaded_dir = {downloaded_dir}")
-    logger.info(f"movies_dir = {movies_dir}")
-    logger.info(f"tv_shows_dir = {tv_shows_dir}")
-
-    filesystem.file_watcher([downloaded_dir, movies_dir, tv_shows_dir],
+    filesystem.file_watcher([environment.downloaded_dir, environment.movies_dir, environment.tv_shows_dir],
                             dir_moved=dir_moved,
                             dir_gone=dir_gone,
                             file_created=file_created,
@@ -105,7 +98,7 @@ if __name__ == "__main__":
                             file_modified=file_modified,
                             file_moved=file_moved)
 
-    filesystem.file_watcher([config_dir],
+    filesystem.file_watcher([environment.config_dir],
                             file_created=config_file_updated,
                             file_modified=config_file_updated)
 
