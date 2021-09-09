@@ -5,6 +5,7 @@ import os
 from environment import Environment
 from radarr import Radarr
 from settings.toml import Settings
+from synology import Synology
 
 from flask import Flask, Response, render_template, request
 from flask_socketio import SocketIO
@@ -19,6 +20,8 @@ config_file = os.path.join(environment.config_dir, "cupidon.conf")
 settings = Settings(config_file, environment)
 
 radarr = Radarr(settings)
+
+synology = Synology(environment, settings)
 
 app = Flask(__name__,
             static_url_path="",
@@ -62,7 +65,7 @@ def read_movies():
 
 @socketio.on("movie:download")
 def download_movie(movie):
-    logger.info(f"Downloading movie: {movie}")
+    synology.download_movie(movie)
 
 def dir_moved(dir_path, old_path):
     logger.info(f"directory moved from {old_path} to {dir_path}")
