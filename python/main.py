@@ -25,8 +25,8 @@ synology = Synology(environment, settings)
 
 app = Flask(__name__,
             static_url_path="",
-            static_folder="/www",
-            template_folder="/www")
+            static_folder=environment.www_dir,
+            template_folder=environment.www_dir)
 
 # Enable origin check only if an origin is provided
 cors_allowed_origins = environment.cupidon_url or list()
@@ -92,9 +92,7 @@ def file_moved(file_path, old_path):
     logger.info(f"file moved from {old_path} to {file_path}")
 
 if __name__ == "__main__":
-    filesystem.file_watcher(environment.downloaded_dir,
-                            environment.movies_dir,
-                            environment.tv_shows_dir,
+    filesystem.file_watcher(environment.data_dir,
                             dir_moved=dir_moved,
                             dir_gone=dir_gone,
                             file_created=file_created,

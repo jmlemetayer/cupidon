@@ -38,7 +38,7 @@ RUN	set -x \
 	&& find -type d -exec chmod 755 {} + \
 	&& find -type f -exec chmod 644 {} +
 
-VOLUME	["/config", "/downloads"]
+VOLUME	["/config", "/data"]
 
 EXPOSE	8080
 
