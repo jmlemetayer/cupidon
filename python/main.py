@@ -92,7 +92,9 @@ def file_moved(file_path, old_path):
     logger.info(f"file moved from {old_path} to {file_path}")
 
 if __name__ == "__main__":
-    filesystem.file_watcher([environment.downloaded_dir, environment.movies_dir, environment.tv_shows_dir],
+    filesystem.file_watcher(environment.downloaded_dir,
+                            environment.movies_dir,
+                            environment.tv_shows_dir,
                             dir_moved=dir_moved,
                             dir_gone=dir_gone,
                             file_created=file_created,
@@ -101,7 +103,7 @@ if __name__ == "__main__":
                             file_modified=file_modified,
                             file_moved=file_moved)
 
-    filesystem.file_watcher([environment.config_dir],
+    filesystem.file_watcher(environment.config_dir,
                             file_created=config_file_updated,
                             file_modified=config_file_updated)
 

@@ -8,7 +8,7 @@ from inotify_simple import INotify, flags
 
 logger = logging.getLogger("filesystem.watcher")
 
-def file_watcher(root_paths,
+def file_watcher(*root_paths,
                  dir_gone=None,
                  dir_moved=None,
                  file_created=None,
