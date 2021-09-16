@@ -22,11 +22,11 @@ class SettingsAbstract(ABC):
     def format(self, data):
         return {
             "radarr": {
-                "url": self.get("radarr.url", "https://radarr.url", data),
+                "url": self.get("radarr.url", self.environment.radarr_url, data),
                 "api_key": self.get("radarr.api_key", "", data),
             },
             "sonarr": {
-                "url": self.get("sonarr.url", "https://sonarr.url", data),
+                "url": self.get("sonarr.url", self.environment.sonarr_url, data),
                 "api_key": self.get("sonarr.api_key", "", data),
             },
             "seedbox": {
