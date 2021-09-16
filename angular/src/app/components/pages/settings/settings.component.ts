@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
       destination: this.formBuilder.group({
         movies: ['', Validators.required],
         tv_shows: ['', Validators.required],
-        others: ['', Validators.required],
+        files: ['', Validators.required],
       }),
     }),
   });

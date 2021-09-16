@@ -17,7 +17,7 @@ export interface SeedboxSettings {
 export interface SynologyDestinationSettings {
   movies: string;
   tv_shows: string;
-  others: string;
+  files: string;
 }
 
 export interface SynologySettings {

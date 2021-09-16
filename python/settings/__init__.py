@@ -41,7 +41,7 @@ class SettingsAbstract(ABC):
                 "destination": {
                     "movies": self.get("synology.destination.movies", "", data),
                     "tv_shows": self.get("synology.destination.tv_shows", "", data),
-                    "others": self.get("synology.destination.others", "", data),
+                    "files": self.get("synology.destination.files", "", data),
                 },
             },
         }
