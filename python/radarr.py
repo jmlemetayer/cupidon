@@ -24,17 +24,21 @@ class Radarr():
         return response.json()
 
     def format_movie(self, movie, queue=None):
-        formatted_movie = dict()
-        formatted_movie["id"] = movie["id"]
-        formatted_movie["title"] = movie.get("originalTitle") or movie["title"]
-        formatted_movie["path"] = movie.get("path")
-        formatted_movie["file"] = movie.get("movieFile", dict()).get("path")
-        formatted_movie["tags"] = list()
+        formatted_movie = {
+            "id": movie["id"],
+            "title": movie.get("originalTitle") or movie["title"],
+            "path": movie.get("path"),
+            "file": movie.get("movieFile", dict()).get("path"),
+            "tags": [],
+        }
+
         if movie.get("hasFile", False) is False:
             formatted_movie["tags"].append("unavailable")
+
         movie_queue = self.get_movie_queue(movie["id"], queue=queue)
         if movie_queue is not None:
             formatted_movie["tags"].append(movie_queue["status"])
+
         return formatted_movie
 
     def get_movies(self):

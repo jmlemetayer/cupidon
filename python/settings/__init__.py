@@ -20,26 +20,31 @@ class SettingsAbstract(ABC):
         pass
 
     def format(self, data):
-        settings = dict()
-        settings["radarr"] = dict()
-        settings["radarr"]["url"]     = self.get("radarr.url", "https://radarr.url", data)
-        settings["radarr"]["api_key"] = self.get("radarr.api_key", "", data)
-        settings["sonarr"] = dict()
-        settings["sonarr"]["url"]     = self.get("sonarr.url", "https://sonarr.url", data)
-        settings["sonarr"]["api_key"] = self.get("sonarr.api_key", "", data)
-        settings["seedbox"] = dict()
-        settings["seedbox"]["url"]      = self.get("seedbox.url", self.environment.seedbox_url, data)
-        settings["seedbox"]["username"] = self.get("seedbox.username", "", data)
-        settings["seedbox"]["password"] = self.get("seedbox.password", "", data)
-        settings["synology"] = dict()
-        settings["synology"]["url"]      = self.get("synology.url", "https://synology.url", data)
-        settings["synology"]["username"] = self.get("synology.username", "", data)
-        settings["synology"]["password"] = self.get("synology.password", "", data)
-        settings["synology"]["destination"] = dict()
-        settings["synology"]["destination"]["movies"]   = self.get("synology.destination.movies", "", data)
-        settings["synology"]["destination"]["tv_shows"] = self.get("synology.destination.tv_shows", "", data)
-        settings["synology"]["destination"]["others"]   = self.get("synology.destination.others", "", data)
-        return settings
+        return {
+            "radarr": {
+                "url": self.get("radarr.url", "https://radarr.url", data),
+                "api_key": self.get("radarr.api_key", "", data),
+            },
+            "sonarr": {
+                "url": self.get("sonarr.url", "https://sonarr.url", data),
+                "api_key": self.get("sonarr.api_key", "", data),
+            },
+            "seedbox": {
+                "url": self.get("seedbox.url", self.environment.seedbox_url, data),
+                "username": self.get("seedbox.username", "", data),
+                "password": self.get("seedbox.password", "", data),
+            },
+            "synology": {
+                "url": self.get("synology.url", "https://synology.url", data),
+                "username": self.get("synology.username", "", data),
+                "password": self.get("synology.password", "", data),
+                "destination": {
+                    "movies": self.get("synology.destination.movies", "", data),
+                    "tv_shows": self.get("synology.destination.tv_shows", "", data),
+                    "others": self.get("synology.destination.others", "", data),
+                },
+            },
+        }
 
     def read(self, **kwargs):
         return self.format(self.load(**kwargs))
