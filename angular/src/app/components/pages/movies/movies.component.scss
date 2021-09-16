@@ -1,26 +1,26 @@
 table {
-  width: 100%;
+    width: 100%;
 }
 
 .mat-column-title {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 .mat-column-tags {
-  width: 100%;
+    width: 100%;
 }
 
 mat-chip {
-  padding: 12px;
-  font-size: 12px;
-  min-height: 12px;
+    padding: 12px;
+    font-size: 12px;
+    min-height: 12px;
 }
 
 .actions {
-  opacity: 0.0;
-  transition: all 600ms ease-out;
+    opacity: 0.0;
+    transition: all 600ms ease-out;
 }
 
 tr:hover .actions {
-  opacity: 1.0;
+    opacity: 1.0;
 }

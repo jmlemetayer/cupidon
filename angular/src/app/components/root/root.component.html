@@ -1,50 +1,50 @@
 <div fxLayout="column" fxFlexFill>
 
     <mat-toolbar color="primary">
-      <button mat-icon-button aria-label="Toggle menu" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <a mat-button routerLink="/">
-        <img src="/assets/images/cupidon.svg" class="logo">
-        <span>Cupidon</span>
-      </a>
+        <button mat-icon-button aria-label="Toggle menu" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <a mat-button routerLink="/">
+            <img src="/assets/images/cupidon.svg" class="logo">
+            <span>Cupidon</span>
+        </a>
     </mat-toolbar>
 
     <mat-sidenav-container fxFlex="grow">
 
-      <mat-sidenav mode="push" #sidenav>
-        <mat-nav-list fxLayout="column">
+        <mat-sidenav mode="push" #sidenav>
+            <mat-nav-list fxLayout="column">
 
-          <mat-list-item routerLink="/movies">
-            <mat-icon matListIcon>movie</mat-icon>
-            <a matLine>Movies</a>
-          </mat-list-item>
+                <mat-list-item routerLink="/movies">
+                    <mat-icon matListIcon>movie</mat-icon>
+                    <a matLine>Movies</a>
+                </mat-list-item>
 
-          <mat-list-item routerLink="/tv-shows">
-            <mat-icon matListIcon>live_tv</mat-icon>
-            <a matLine>TV Shows</a>
-          </mat-list-item>
+                <mat-list-item routerLink="/tv-shows">
+                    <mat-icon matListIcon>live_tv</mat-icon>
+                    <a matLine>TV Shows</a>
+                </mat-list-item>
 
-          <mat-divider></mat-divider>
+                <mat-divider></mat-divider>
 
-          <mat-list-item routerLink="/files">
-            <mat-icon matListIcon>perm_media</mat-icon>
-            <a matLine>Files</a>
-          </mat-list-item>
+                <mat-list-item routerLink="/files">
+                    <mat-icon matListIcon>perm_media</mat-icon>
+                    <a matLine>Files</a>
+                </mat-list-item>
 
-          <mat-divider></mat-divider>
+                <mat-divider></mat-divider>
 
-          <mat-list-item routerLink="/settings">
-            <mat-icon matListIcon>settings</mat-icon>
-            <a matLine>Settings</a>
-          </mat-list-item>
+                <mat-list-item routerLink="/settings">
+                    <mat-icon matListIcon>settings</mat-icon>
+                    <a matLine>Settings</a>
+                </mat-list-item>
 
-        </mat-nav-list>
-      </mat-sidenav>
+            </mat-nav-list>
+        </mat-sidenav>
 
-      <mat-sidenav-content>
-        <router-outlet></router-outlet>
-      </mat-sidenav-content>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
 
     </mat-sidenav-container>
 

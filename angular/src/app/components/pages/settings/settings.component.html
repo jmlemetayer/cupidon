@@ -1,77 +1,77 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" fxFlexFill>
-  <app-page>
-    <h1 app-page-header>Settings</h1>
+    <app-page>
+        <h1 app-page-header>Settings</h1>
 
-    <div class="form-group" formGroupName="radarr">
-      <h3>Radarr Settings</h3>
+        <div class="form-group" formGroupName="radarr">
+            <h3>Radarr Settings</h3>
 
-      <mat-form-field>
-        <input matInput placeholder="Radarr API URL" formControlName="url">
-      </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Radarr API URL" formControlName="url">
+            </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Radarr API key" formControlName="api_key">
-      </mat-form-field>
-    </div>
+            <mat-form-field>
+                <input matInput placeholder="Radarr API key" formControlName="api_key">
+            </mat-form-field>
+        </div>
 
-    <div class="form-group" formGroupName="sonarr">
-      <h3>Sonarr Settings</h3>
+        <div class="form-group" formGroupName="sonarr">
+            <h3>Sonarr Settings</h3>
 
-      <mat-form-field>
-        <input matInput placeholder="Sonarr API URL" formControlName="url">
-      </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Sonarr API URL" formControlName="url">
+            </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Sonarr API key" formControlName="api_key">
-      </mat-form-field>
-    </div>
+            <mat-form-field>
+                <input matInput placeholder="Sonarr API key" formControlName="api_key">
+            </mat-form-field>
+        </div>
 
-    <div class="form-group" formGroupName="seedbox">
-      <h3>Seedbox Settings</h3>
+        <div class="form-group" formGroupName="seedbox">
+            <h3>Seedbox Settings</h3>
 
-      <mat-form-field>
-        <input matInput placeholder="Seedbox URL" formControlName="url">
-      </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Seedbox URL" formControlName="url">
+            </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Seedbox Username" formControlName="username">
-      </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Seedbox Username" formControlName="username">
+            </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Seedbox Password" formControlName="password">
-      </mat-form-field>
-    </div>
+            <mat-form-field>
+                <input matInput placeholder="Seedbox Password" formControlName="password">
+            </mat-form-field>
+        </div>
 
-    <div class="form-group" formGroupName="synology">
-      <h3>Synology Settings</h3>
+        <div class="form-group" formGroupName="synology">
+            <h3>Synology Settings</h3>
 
-      <mat-form-field>
-        <input matInput placeholder="Synology URL" formControlName="url">
-      </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Synology URL" formControlName="url">
+            </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Synology Username" formControlName="username">
-      </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Synology Username" formControlName="username">
+            </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Synology Password" formControlName="password">
-      </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Synology Password" formControlName="password">
+            </mat-form-field>
 
-      <div formGroupName="destination">
-        <mat-form-field>
-          <input matInput placeholder="Synology Destination Movies" formControlName="movies">
-        </mat-form-field>
+            <div formGroupName="destination">
+                <mat-form-field>
+                    <input matInput placeholder="Synology Destination Movies" formControlName="movies">
+                </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Synology Destination TV Shows" formControlName="tv_shows">
-        </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Synology Destination TV Shows" formControlName="tv_shows">
+                </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Synology Destination Others" formControlName="others">
-        </mat-form-field>
-      </div>
-    </div>
+                <mat-form-field>
+                    <input matInput placeholder="Synology Destination Others" formControlName="others">
+                </mat-form-field>
+            </div>
+        </div>
 
-    <button app-page-footer mat-raised-button color="primary" type="submit" [disabled]="!settingsForm.valid">Submit</button>
-  </app-page>
+        <button app-page-footer mat-raised-button color="primary" type="submit" [disabled]="!settingsForm.valid">Submit</button>
+    </app-page>
 </form>

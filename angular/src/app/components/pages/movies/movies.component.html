@@ -1,47 +1,47 @@
 <app-page>
-  <h1 app-page-header>Movies</h1>
+    <h1 app-page-header>Movies</h1>
 
-  <table mat-table [dataSource]="movies">
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let movie"> {{movie.title}} </td>
-    </ng-container>
+    <table mat-table [dataSource]="movies">
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let movie"> {{movie.title}} </td>
+        </ng-container>
 
-    <ng-container matColumnDef="tags">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let movie">
-        <mat-chip-list>
-          <ng-template [ngIf]="movie.tags.includes('unavailable')">
-            <mat-chip color="warn" selected>unavailable</mat-chip>
-          </ng-template>
+        <ng-container matColumnDef="tags">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let movie">
+                <mat-chip-list>
+                    <ng-template [ngIf]="movie.tags.includes('unavailable')">
+                        <mat-chip color="warn" selected>unavailable</mat-chip>
+                    </ng-template>
 
-          <ng-template [ngIf]="movie.tags.includes('downloading')">
-            <mat-chip color="primary" selected>downloading</mat-chip>
-          </ng-template>
-        </mat-chip-list>
-      </td>
-    </ng-container>
+                    <ng-template [ngIf]="movie.tags.includes('downloading')">
+                        <mat-chip color="primary" selected>downloading</mat-chip>
+                    </ng-template>
+                </mat-chip-list>
+            </td>
+        </ng-container>
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let movie">
-        <div class="actions">
-          <div *ngIf="movie.tags.includes('unavailable'); then unavailable else available"></div>
-          <ng-template #available>
-            <button mat-icon-button aria-label="Download" (click)="onDownload(movie)">
-              <mat-icon>cloud_download</mat-icon>
-            </button>
-          </ng-template>
-          <ng-template #unavailable>
-            <button mat-icon-button aria-label="Download" disabled>
-              <mat-icon>cloud_download</mat-icon>
-            </button>
-          </ng-template>
-        </div>
-      </td>
-    </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let movie">
+                <div class="actions">
+                    <div *ngIf="movie.tags.includes('unavailable'); then unavailable else available"></div>
+                    <ng-template #available>
+                        <button mat-icon-button aria-label="Download" (click)="onDownload(movie)">
+                            <mat-icon>cloud_download</mat-icon>
+                        </button>
+                    </ng-template>
+                    <ng-template #unavailable>
+                        <button mat-icon-button aria-label="Download" disabled>
+                            <mat-icon>cloud_download</mat-icon>
+                        </button>
+                    </ng-template>
+                </div>
+            </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-  </table>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
 </app-page>
