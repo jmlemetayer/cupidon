@@ -1,4 +1,5 @@
 import logging
+import os
 import requests
 
 from urllib.parse import urljoin
@@ -7,7 +8,8 @@ logger = logging.getLogger("radarr")
 
 class Radarr():
 
-    def __init__(self, settings):
+    def __init__(self, environment, settings):
+        self.environment = environment
         self.settings = settings
 
     def request(self, method, path, params=None, json=None):
@@ -23,12 +25,18 @@ class Radarr():
         assert response.ok
         return response.json()
 
+    def format_path(self, path):
+        if path is None:
+            return None
+        relpath = os.path.relpath(path, self.settings.get("radarr.data_dir"))
+        return os.path.join(self.environment.data_dir, relpath)
+
     def format_movie(self, movie, queue=None):
         formatted_movie = {
             "id": movie["id"],
             "title": movie.get("originalTitle") or movie["title"],
-            "path": movie.get("path"),
-            "file": movie.get("movieFile", dict()).get("path"),
+            "path": self.format_path(movie.get("path")),
+            "file": self.format_path(movie.get("movieFile", dict()).get("path")),
             "tags": [],
         }
 

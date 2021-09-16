@@ -19,7 +19,7 @@ environment = Environment()
 config_file = os.path.join(environment.config_dir, "cupidon.conf")
 settings = Settings(config_file, environment)
 
-radarr = Radarr(settings)
+radarr = Radarr(environment, settings)
 
 synology = Synology(environment, settings)
 
