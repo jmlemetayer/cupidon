@@ -1,4 +1,12 @@
 .app-page {
     min-height: calc(100vh - 64px);
     padding: 10px;
+
+    .app-page-header {
+        padding-bottom: 30px;
+    }
+
+    .app-page-footer {
+        padding-top: 30px;
+    }
 }
