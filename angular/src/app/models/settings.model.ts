@@ -1,11 +1,13 @@
 export interface RadarrSettings {
   url: string;
   api_key: string;
+  data_dir: string;
 }
 
 export interface SonarrSettings {
   url: string;
   api_key: string;
+  data_dir: string;
 }
 
 export interface SeedboxSettings {

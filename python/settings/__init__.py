@@ -24,10 +24,12 @@ class SettingsAbstract(ABC):
             "radarr": {
                 "url": self.get("radarr.url", self.environment.radarr_url, data),
                 "api_key": self.get("radarr.api_key", "", data),
+                "data_dir": self.get("radarr.data_dir", self.environment.radarr_data_dir, data),
             },
             "sonarr": {
                 "url": self.get("sonarr.url", self.environment.sonarr_url, data),
                 "api_key": self.get("sonarr.api_key", "", data),
+                "data_dir": self.get("sonarr.data_dir", self.environment.sonarr_data_dir, data),
             },
             "seedbox": {
                 "url": self.get("seedbox.url", self.environment.seedbox_url, data),

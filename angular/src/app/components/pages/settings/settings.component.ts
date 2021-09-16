@@ -16,10 +16,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     radarr: this.formBuilder.group({
       url: ['', Validators.required],
       api_key: ['', Validators.required],
+      data_dir: ['', Validators.required],
     }),
     sonarr: this.formBuilder.group({
       url: ['', Validators.required],
       api_key: ['', Validators.required],
+      data_dir: ['', Validators.required],
     }),
     seedbox: this.formBuilder.group({
       url: ['', Validators.required],
