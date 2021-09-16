@@ -75,7 +75,7 @@ class Synology():
     def download_movie(self, movie):
         src_file = movie["file"]
 
-        src_urlpath = os.path.relpath(src_file, self.environment.root_dir)
+        src_urlpath = os.path.relpath(src_file, self.environment.data_dir)
         src_url = urljoin(self.settings.get("seedbox.url"), src_urlpath)
 
         dst_relfile = os.path.relpath(src_file, self.environment.movies_dir)
