@@ -1,12 +1,13 @@
 import logging
+
 import toml
 
 from . import SettingsAbstract
 
 logger = logging.getLogger("settings.toml")
 
-class Settings(SettingsAbstract):
 
+class Settings(SettingsAbstract):
     def __init__(self, filename, environment):
         self.filename = filename
         self.data = None

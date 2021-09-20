@@ -4,18 +4,22 @@ import queue
 import threading
 import time
 
-from inotify_simple import INotify, flags
+from inotify_simple import flags
+from inotify_simple import INotify
 
 logger = logging.getLogger("filesystem.watcher")
 
-def file_watcher(*root_paths,
-                 dir_gone=None,
-                 dir_moved=None,
-                 file_created=None,
-                 file_deleted=None,
-                 file_gone=None,
-                 file_modified=None,
-                 file_moved=None):
+
+def file_watcher(
+    *root_paths,
+    dir_gone=None,
+    dir_moved=None,
+    file_created=None,
+    file_deleted=None,
+    file_gone=None,
+    file_modified=None,
+    file_moved=None,
+):
     """
     dir_done(dir_path)
     dir_moved(dir_path, old_path)
@@ -29,10 +33,9 @@ def file_watcher(*root_paths,
     inotify = INotify()
     event_queue = queue.Queue()
 
-    watch_flags = flags.CREATE | \
-                  flags.MODIFY | \
-                  flags.MOVED_TO | flags.MOVED_FROM  | \
-                  flags.DELETE
+    watch_flags = (
+        flags.CREATE | flags.MODIFY | flags.MOVED_TO | flags.MOVED_FROM | flags.DELETE
+    )
 
     watch_paths = dict()
     moved_paths = dict()
@@ -80,10 +83,14 @@ def file_watcher(*root_paths,
                     del watch_paths[wd]
                     inotify.rm_watch(wd)
 
-        thread = threading.Thread(target=track_cookie, daemon=True, kwargs={
-            "cookie": cookie,
-            "isdir": isdir,
-        })
+        thread = threading.Thread(
+            target=track_cookie,
+            daemon=True,
+            kwargs={
+                "cookie": cookie,
+                "isdir": isdir,
+            },
+        )
 
         thread.start()
 
@@ -97,7 +104,10 @@ def file_watcher(*root_paths,
                     if event.mask & flags.IGNORED:
                         continue
 
-                    logger.debug(f"{event} {' '.join([str(f) for f in flags.from_mask(event.mask)])}")
+                    flags_debug = " ".join(
+                        [str(f) for f in flags.from_mask(event.mask)]
+                    )
+                    logger.debug(f"{event} {flags_debug}")
 
                     dir_path = watch_paths[event.wd]
                     name_path = os.path.join(dir_path, event.name)
@@ -114,7 +124,13 @@ def file_watcher(*root_paths,
                         elif event.mask & flags.MOVED_TO:
                             old_path = get_moved_path(event.cookie)
                             if old_path is not None:
-                                event_queue.put({"name": "dir_moved", "dir_path": name_path, "old_path": old_path})
+                                event_queue.put(
+                                    {
+                                        "name": "dir_moved",
+                                        "dir_path": name_path,
+                                        "old_path": old_path,
+                                    }
+                                )
                                 wd = get_watch_descriptor(old_path)
                                 if wd is not None:
                                     watch_paths[wd] = name_path
@@ -123,19 +139,33 @@ def file_watcher(*root_paths,
 
                     else:
                         if event.mask & flags.CREATE:
-                            event_queue.put({"name": "file_created", "file_path": name_path})
+                            event_queue.put(
+                                {"name": "file_created", "file_path": name_path}
+                            )
                         elif event.mask & flags.DELETE:
-                            event_queue.put({"name": "file_deleted", "file_path": name_path})
+                            event_queue.put(
+                                {"name": "file_deleted", "file_path": name_path}
+                            )
                         elif event.mask & flags.MODIFY:
-                            event_queue.put({"name": "file_modified", "file_path": name_path})
+                            event_queue.put(
+                                {"name": "file_modified", "file_path": name_path}
+                            )
                         elif event.mask & flags.MOVED_FROM:
                             add_moved_path(event.cookie, name_path)
                         elif event.mask & flags.MOVED_TO:
                             old_path = get_moved_path(event.cookie)
                             if old_path is not None:
-                                event_queue.put({"name": "file_moved", "file_path": name_path, "old_path": old_path})
+                                event_queue.put(
+                                    {
+                                        "name": "file_moved",
+                                        "file_path": name_path,
+                                        "old_path": old_path,
+                                    }
+                                )
                             else:
-                                event_queue.put({"name": "file_created", "file_path": name_path})
+                                event_queue.put(
+                                    {"name": "file_created", "file_path": name_path}
+                                )
 
             except KeyboardInterrupt:
                 event_queue.join()
@@ -143,13 +173,15 @@ def file_watcher(*root_paths,
             except Exception as err:
                 logger.error(err, exc_info=True)
 
-    def processing_thread(dir_moved=None,
-                          dir_gone=None,
-                          file_created=None,
-                          file_deleted=None,
-                          file_gone=None,
-                          file_modified=None,
-                          file_moved=None):
+    def processing_thread(
+        dir_moved=None,
+        dir_gone=None,
+        file_created=None,
+        file_deleted=None,
+        file_gone=None,
+        file_modified=None,
+        file_moved=None,
+    ):
         while True:
             try:
                 event = event_queue.get()
@@ -181,19 +213,31 @@ def file_watcher(*root_paths,
 
     threads = list()
 
-    threads.append(threading.Thread(target=watching_thread, daemon=True, kwargs={
-        "root_paths": root_paths,
-    }))
+    threads.append(
+        threading.Thread(
+            target=watching_thread,
+            daemon=True,
+            kwargs={
+                "root_paths": root_paths,
+            },
+        )
+    )
 
-    threads.append(threading.Thread(target=processing_thread, daemon=True, kwargs={
-        "dir_moved": dir_moved,
-        "dir_gone": dir_gone,
-        "file_created": file_created,
-        "file_deleted": file_deleted,
-        "file_gone": file_gone,
-        "file_modified": file_modified,
-        "file_moved": file_moved,
-    }))
+    threads.append(
+        threading.Thread(
+            target=processing_thread,
+            daemon=True,
+            kwargs={
+                "dir_moved": dir_moved,
+                "dir_gone": dir_gone,
+                "file_created": file_created,
+                "file_deleted": file_deleted,
+                "file_gone": file_gone,
+                "file_modified": file_modified,
+                "file_moved": file_moved,
+            },
+        )
+    )
 
     for thread in threads:
         thread.start()

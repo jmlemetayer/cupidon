@@ -1,18 +1,18 @@
-import filesystem
 import logging
 import os
 import time
+from urllib.parse import urljoin
+
+import filesystem
 
 from .auth import SynologyAuth
 from .download import SynologyDownload
 from .file import SynologyFile
 
-from urllib.parse import urljoin
-
 logger = logging.getLogger("synology")
 
-class Synology():
 
+class Synology:
     def __init__(self, environment, settings):
         self.environment = environment
         self.settings = settings
@@ -67,10 +67,12 @@ class Synology():
             logger.info(f"The downloading of the file {dst_filename} has been skipped")
             return
 
-        self.download.download(src_url,
-                destination=dst_dir,
-                username=self.settings.get("seedbox.username"),
-                password=self.settings.get("seedbox.password"))
+        self.download.download(
+            src_url,
+            destination=dst_dir,
+            username=self.settings.get("seedbox.username"),
+            password=self.settings.get("seedbox.password"),
+        )
 
     def download_movie(self, movie):
         src_file = movie["file"]

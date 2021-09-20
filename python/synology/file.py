@@ -3,8 +3,8 @@ import os
 
 logger = logging.getLogger("synology.file")
 
-class SynologyFile():
 
+class SynologyFile:
     def __init__(self, parent):
         self.parent = parent
 

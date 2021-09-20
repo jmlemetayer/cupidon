@@ -1,11 +1,9 @@
 import logging
 
-from urllib.parse import quote
-
 logger = logging.getLogger("synology.download")
 
-class SynologyDownload():
 
+class SynologyDownload:
     def __init__(self, parent):
         self.parent = parent
 

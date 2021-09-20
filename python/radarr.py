@@ -1,13 +1,13 @@
 import logging
 import os
-import requests
-
 from urllib.parse import urljoin
+
+import requests
 
 logger = logging.getLogger("radarr")
 
-class Radarr():
 
+class Radarr:
     def __init__(self, environment, settings):
         self.environment = environment
         self.settings = settings

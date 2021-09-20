@@ -5,10 +5,12 @@ from pymediainfo import MediaInfo
 
 logger = logging.getLogger("filesystem.media")
 
+
 class MediaType(enum.Enum):
     UNKNOWN = enum.auto()
     AUDIO = enum.auto()
     VIDEO = enum.auto()
+
 
 def get_file_media_type(file_path):
     media_type = MediaType.UNKNOWN

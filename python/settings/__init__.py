@@ -1,12 +1,12 @@
 import logging
-
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from functools import reduce
 
 logger = logging.getLogger("settings")
 
-class SettingsAbstract(ABC):
 
+class SettingsAbstract(ABC):
     def __init__(self, environment):
         self.environment = environment
         self.load()
@@ -24,12 +24,16 @@ class SettingsAbstract(ABC):
             "radarr": {
                 "url": self.get("radarr.url", self.environment.radarr_url, data),
                 "api_key": self.get("radarr.api_key", "", data),
-                "data_dir": self.get("radarr.data_dir", self.environment.radarr_data_dir, data),
+                "data_dir": self.get(
+                    "radarr.data_dir", self.environment.radarr_data_dir, data
+                ),
             },
             "sonarr": {
                 "url": self.get("sonarr.url", self.environment.sonarr_url, data),
                 "api_key": self.get("sonarr.api_key", "", data),
-                "data_dir": self.get("sonarr.data_dir", self.environment.sonarr_data_dir, data),
+                "data_dir": self.get(
+                    "sonarr.data_dir", self.environment.sonarr_data_dir, data
+                ),
             },
             "seedbox": {
                 "url": self.get("seedbox.url", self.environment.seedbox_url, data),
@@ -57,4 +61,8 @@ class SettingsAbstract(ABC):
     def get(self, path, default=None, data=None):
         if data is None:
             data = self.read()
-        return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, path.split("."), data)
+        return reduce(
+            lambda d, key: d.get(key, default) if isinstance(d, dict) else default,
+            path.split("."),
+            data,
+        )

@@ -1,15 +1,15 @@
 import json
 import logging
-import requests
 import threading
 import time
-
 from urllib.parse import urljoin
+
+import requests
 
 logger = logging.getLogger("synology.auth")
 
-class SynologyAuth():
 
+class SynologyAuth:
     def __init__(self, parent):
         self.parent = parent
         self.session_id = None
@@ -40,7 +40,7 @@ class SynologyAuth():
         response = requests.post(url, data=data_formatted, cookies=cookies)
 
         assert response.ok
-        assert response.json().get("success", False) == True
+        assert response.json().get("success", False) is True
         return response.json().get("data")
 
     def get_info(self, query=None):
