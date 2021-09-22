@@ -1,5 +1,4 @@
 import logging
-import os
 
 import filesystem
 from environment import Environment
@@ -18,24 +17,32 @@ logger = logging.getLogger("cupidon")
 
 environment = Environment()
 
-config_file = os.path.join(environment.config_dir, "cupidon.conf")
-settings = Settings(config_file, environment)
-
-radarr = Radarr(environment, settings)
-
-synology = Synology(environment, settings)
-
 app = Flask(
-    __name__,
+    import_name=__name__,
     static_url_path="",
     static_folder=environment.www_dir,
     template_folder=environment.www_dir,
 )
 
-# Enable origin check only if an origin is provided
-cors_allowed_origins = environment.cupidon_url or list()
+socketio = SocketIO(
+    app=app,
+    cors_allowed_origins=environment.cupidon_url or list(),
+)
 
-socketio = SocketIO(app, cors_allowed_origins=cors_allowed_origins)
+settings = Settings(
+    environment=environment,
+    socketio=socketio,
+)
+
+radarr = Radarr(
+    environment=environment,
+    settings=settings,
+)
+
+synology = Synology(
+    environment=environment,
+    settings=settings,
+)
 
 
 @app.errorhandler(404)
@@ -63,11 +70,6 @@ def read_settings():
 @socketio.on("settings:update")
 def update_settings(data):
     settings.update(data)
-
-
-def config_file_updated(file_path):
-    if file_path == config_file:
-        socketio.emit("settings:updated", settings.read(reload=True))
 
 
 @socketio.on("movies:read")
@@ -121,12 +123,6 @@ if __name__ == "__main__":
         file_gone=file_gone,
         file_modified=file_modified,
         file_moved=file_moved,
-    )
-
-    filesystem.file_watcher(
-        environment.config_dir,
-        file_created=config_file_updated,
-        file_modified=config_file_updated,
     )
 
     socketio.run(app, host="0.0.0.0", port=8080)

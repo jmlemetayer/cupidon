@@ -1,23 +1,38 @@
 import logging
+import os
 from abc import ABC
 from abc import abstractmethod
 from functools import reduce
+
+import filesystem
 
 logger = logging.getLogger("settings")
 
 
 class SettingsAbstract(ABC):
-    def __init__(self, environment):
+    def __init__(self, environment, socketio):
         self.environment = environment
+        self.socketio = socketio
         self.load()
 
     @abstractmethod
-    def load(self):
+    def load(self, reload=None, **kwargs):
         pass
 
     @abstractmethod
-    def dump(self, data):
+    def dump(self, data, **kwargs):
         pass
+
+    def file_watcher(self, config_file):
+        def file_updated(file_path):
+            if file_path == config_file:
+                self.socketio.emit("settings:updated", self.read(reload=True))
+
+        filesystem.file_watcher(
+            os.path.dirname(config_file),
+            file_created=file_updated,
+            file_modified=file_updated,
+        )
 
     def format(self, data):
         return {
