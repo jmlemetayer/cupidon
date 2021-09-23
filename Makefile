@@ -9,7 +9,7 @@ MOUNT_CONFIG      := --volume ${CONFIG_DIR}:/config --env CONFIG_DIR=/config
 MOUNT_DATA        := --volume ${DATA_DIR}:/data --env DATA_DIR=/data
 MOUNT_WWW         := --volume ${WWW_DIR}:/www --env WWW_DIR=/www
 
-DOCKER_COMMON  := --rm --workdir /app ${MOUNT_WWW}
+DOCKER_COMMON  := --rm ${MOUNT_WWW}
 DOCKER_ANGULAR := ${DOCKER_COMMON} ${MOUNT_APP_ANGULAR}
 DOCKER_PYTHON  := ${DOCKER_COMMON} ${MOUNT_APP_PYTHON} ${MOUNT_CONFIG} ${MOUNT_DATA} --publish ${DOCKER_PORT}:8080
 
@@ -38,35 +38,35 @@ bash-python: .docker-python .build-angular
 
 .PHONY: run-python
 run-python: .docker-python .build-angular
-	docker run -it ${DOCKER_PYTHON} $(patsubst .%,%,$<) python main.py
+	docker run -it ${DOCKER_PYTHON} $(patsubst .%,%,$<)
 
 .PHONY: bash-angular
-bash-angular: .docker-angular .install-npm
+bash-angular: .docker-angular
 	docker run -it ${DOCKER_ANGULAR} $(patsubst .%,%,$<) bash
 
 .PHONY: build-angular
-build-angular: .docker-angular .install-npm
-	docker run -it ${DOCKER_ANGULAR} $(patsubst .%,%,$<) ng build --output-path /www --watch
+build-angular: .docker-angular
+	docker run -it ${DOCKER_ANGULAR} $(patsubst .%,%,$<) ng build --output-path=/www --watch
 
-.build-angular: .docker-angular .install-npm
-	docker run ${DOCKER_ANGULAR} $(patsubst .%,%,$<) ng build --configuration production --output-path /www
+.build-angular: .docker-angular
+	docker run ${DOCKER_ANGULAR} $(patsubst .%,%,$<)
 	touch $@
 
-.install-npm: .docker-angular
-	docker run ${DOCKER_ANGULAR} $(patsubst .%,%,$<) npm install
+.docker-angular .docker-python: .docker-%: %/Dockerfile %/docker-entrypoint.sh | .fix-permissions
+	docker build --file $< --tag $(patsubst .%,%,$@) $(dir $<)
 	touch $@
 
-.docker-angular .docker-python: .docker-%: Dockerfile.%
-	docker build --file $< --tag $(patsubst .%,%,$@) .
-	touch $@
-
-.docker-python: python/requirements.txt
+.PHONY: .fix-permissions
+.fix-permissions:
+	git ls-files | xargs dirname | sort -u | xargs chmod 755
+	git ls-files | xargs chmod 644
+	git ls-files | grep docker-entrypoint.sh | xargs chmod 755
 
 .PHONY: clean
 clean:
 	rm -f  ${CURDIR}/.build-angular
-	rm -f  ${CURDIR}/.install-npm
 	rm -f  ${CURDIR}/.docker-angular
 	rm -f  ${CURDIR}/.docker-python
 	rm -rf ${CURDIR}/angular/node_modules
 	rm -f  ${CURDIR}/angular/package-lock.json
+	rm -rf ${CURDIR}/python/virtual_environment

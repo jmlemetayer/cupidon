@@ -10,6 +10,11 @@ RUN	set -x \
 
 WORKDIR	/app
 
-COPY	python/requirements.txt .
+VOLUME	["/app", "/config", "/data", "/www"]
 
-RUN	pip install --no-cache-dir -r requirements.txt
+EXPOSE	8080
+
+COPY	docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT	["docker-entrypoint.sh"]
+
+CMD	["python", "/app/main.py"]

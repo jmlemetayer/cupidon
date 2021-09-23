@@ -1,3 +1,10 @@
-/.*
+/.config/
+/.www/
 /angular/node_modules/
+/python/virtual_environment/
+
+/.build-angular
+/.docker-angular
+/.docker-python
 /angular/package-lock.json
+__pycache__/

@@ -1,15 +1,12 @@
 # Angular builder stage
 FROM	node:lts AS builder
 
-RUN	npm install -g @angular/cli
-
 WORKDIR	/build
 
 COPY	angular/ .
 
 RUN	set -x \
-	&& find -type d -exec chmod 755 {} + \
-	&& find -type f -exec chmod 644 {} + \
+	&& npm install -g @angular/cli \
 	&& npm install \
 	&& ng build --configuration production --output-path /www
 
@@ -18,25 +15,19 @@ FROM	python:3
 
 COPY	--from=builder /www /www
 
+COPY	python/ /app
+
 RUN	set -x \
 	# Install the needed packages:
 	&& DEBIAN_FRONTEND=noninteractive \
 	&& apt update \
 	&& apt install --no-install-recommends --assume-yes \
 		libmediainfo0v5 \
-	&& rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/* \
+	# Install the python requirements
+	&& pip install --no-cache-dir -r /app/requirements.txt
 
-WORKDIR	/app
-
-COPY	python/requirements.txt .
-
-RUN	pip install --no-cache-dir -r requirements.txt
-
-COPY	python/ .
-
-RUN	set -x \
-	&& find -type d -exec chmod 755 {} + \
-	&& find -type f -exec chmod 644 {} +
+WORKDIR	/config
 
 VOLUME	["/config", "/data"]
 
